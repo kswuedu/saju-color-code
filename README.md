@@ -1,4 +1,4 @@
-[Index.html](https://github.com/user-attachments/files/35260076/Index.html)
+[Index.html] 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
