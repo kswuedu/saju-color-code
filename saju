@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+
+     <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>사주&amp;컬러코드 | 정통 만세력 &amp; 기질 컬러 · 궁합 심층 리포트</title>
+  <title>사주&amp;컬러코드 | 정통 만세력 &amp; 기질 컬러 · 궁합 </title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -24,10 +25,10 @@
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.65;
-      padding: 20px 14px 48px;
+      padding: 20px 14px 52px;
       -webkit-font-smoothing: antialiased;
     }
-    .container { max-width: 900px; margin: 0 auto; }
+    .container { max-width: 920px; margin: 0 auto; }
 
     /* 헤더 */
     header { text-align: center; margin-bottom: 22px; }
@@ -39,7 +40,7 @@
     }
     header p { color: var(--text-sub); font-size: 0.93rem; margin-top: 5px; }
 
-    /* 상단 모드 전환 탭 */
+    /* 상단 3단 모드 전환 탭 */
     .mode-tabs {
       display: flex;
       background: #e2e8f0;
@@ -47,13 +48,15 @@
       border-radius: 14px;
       margin-bottom: 20px;
       gap: 4px;
+      flex-wrap: wrap;
     }
     .tab-btn {
       flex: 1;
+      min-width: 140px;
       padding: 12px 10px;
       border: none;
       border-radius: 10px;
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       font-weight: 700;
       color: #475569;
       background: transparent;
@@ -95,18 +98,29 @@
     }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     label { font-size: 0.84rem; font-weight: 600; color: #475569; }
-    input[type="text"], input[type="date"], input[type="time"] {
+    input[type="text"], input[type="date"], input[type="time"], select, textarea {
       width: 100%;
       padding: 11px 12px;
       border: 1px solid #cbd5e1;
       border-radius: 10px;
-      font-size: 0.95rem;
+      font-size: 0.94rem;
+      font-family: inherit;
       background: #ffffff;
       color: var(--text-main);
       transition: border-color 0.15s;
     }
-    input:focus { outline: none; border-color: #2563eb; }
+    textarea { min-height: 78px; resize: vertical; line-height: 1.55; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; }
     input:disabled { background: #f1f5f9; color: #94a3b8; cursor: not-allowed; }
+    input[type="color"] {
+      width: 54px;
+      height: 42px;
+      padding: 2px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: #ffffff;
+      cursor: pointer;
+    }
     .inline-options {
       display: flex;
       align-items: center;
@@ -193,6 +207,17 @@
       font-weight: 600;
       margin-bottom: 12px;
     }
+    .toast-success {
+      display: none;
+      padding: 11px 15px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
 
     /* 액션 툴바 */
     .action-bar {
@@ -227,6 +252,12 @@
       border-color: #2563eb;
     }
     .btn-png:hover { background: #1d4ed8; }
+    .btn-danger {
+      background: #ffffff;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
+    .btn-danger:hover { background: #fef2f2; }
 
     /* 리포트 공통 */
     .capture-zone { background: var(--bg); padding: 4px; border-radius: 16px; }
@@ -543,19 +574,55 @@
     .sub-score-card .val { font-size: 1.28rem; font-weight: 800; color: #0f172a; margin: 4px 0; }
     .sub-score-card span { font-size: 0.78rem; color: #2563eb; font-weight: 600; }
 
+    /* 데이터 커스텀 편집 탭 */
+    .edit-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 14px 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .edit-section-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .color-picker-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* 브라우저 인쇄 시 페이지 경계 잘림 원천 방지 */
     @media print {
-      .mode-tabs, #single-input-card, #compat-input-card, .action-bar, .pdf-cta-bar, .toast-info { display: none !important; }
-      body { background: #ffffff !important; padding: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .mode-tabs, #single-input-card, #compat-input-card, #view-editor, .action-bar, .pdf-cta-bar, .toast-info {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
       .container { max-width: 100% !important; margin: 0 !important; }
       .capture-zone { background: #ffffff !important; padding: 0 !important; }
-      .card, .analysis-item, .seun-box, .color-box, .therapy-card, .score-hero {
+      .card, .analysis-item, .seun-box, .color-box, .therapy-card, .score-hero, .summary-kv-table tr {
         box-shadow: none !important;
-        break-inside: avoid;
-        page-break-inside: avoid;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
       .daeun-scroll, .table-wrap { overflow: visible !important; }
+      .pdf-page-break {
+        break-before: page !important;
+        page-break-before: always !important;
+      }
     }
   </style>
 </head>
@@ -571,6 +638,7 @@
   <div class="mode-tabs">
     <button class="tab-btn active" id="tab-single" onclick="switchTab('single')">개인 사주 &amp; 기질 컬러 분석</button>
     <button class="tab-btn" id="tab-compat" onclick="switchTab('compat')">두 사람 궁합 &amp; 컬러 시너지</button>
+    <button class="tab-btn" id="tab-editor" onclick="switchTab('editor')">데이터 관리 &amp; 커스텀 편집</button>
   </div>
 
   <!-- =====================================================================
@@ -622,9 +690,9 @@
 
     <div id="single-report-area" style="display:none;">
       <div class="action-bar">
-        <button class="btn-action" id="printBtnSingle" onclick="safePrintReport('single-capture', 'singleInfoMsg')">리포트 인쇄</button>
-        <button class="btn-action btn-png" id="pngBtnSingle" onclick="downloadNativePNG('single-capture', 'pngBtnSingle', 'singleInfoMsg')">고화질 PNG 저장</button>
-        <button class="btn-action btn-primary-pdf" id="pdfBtnSingle" onclick="downloadNativePDF('single-capture', 'pdfBtnSingle', 'singleInfoMsg')">PDF 파일 다운로드</button>
+        <button class="btn-action" id="printBtnSingle" onclick="safePrintReport('single', 'singleInfoMsg')">리포트 인쇄</button>
+        <button class="btn-action btn-png" id="pngBtnSingle" onclick="exportReportAsPNG('single', 'pngBtnSingle', 'singleInfoMsg')">고화질 PNG 저장</button>
+        <button class="btn-action btn-primary-pdf" id="pdfBtnSingle" onclick="exportReportAsPDF('single', 'pdfBtnSingle', 'singleInfoMsg')">PDF 파일 다운로드</button>
       </div>
       <div id="singleInfoMsg" class="toast-info"></div>
 
@@ -701,8 +769,8 @@
           <div class="ohaeng-summary-box" id="ohaengSummaryText"></div>
         </div>
 
-        <!-- 10대 상세 분석 -->
-        <div class="card">
+        <!-- 10대 상세 분석 (PDF/인쇄 시 2페이지 최상단 시작) -->
+        <div class="card pdf-page-break">
           <div class="section-title">심층 기질 및 운세 종합 리포트 (10대 핵심 영역)</div>
           <div class="analysis-grid" id="detailGrid"></div>
         </div>
@@ -725,8 +793,8 @@
       <div class="pdf-cta-bar">
         <p>사주&amp;컬러코드 전체 분석 리포트와 최종 종합 정리를 소장용 PDF 문서로 저장하세요.</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn-action" onclick="safePrintReport('single-capture', 'singleInfoMsg')">리포트 인쇄</button>
-          <button class="btn-action btn-primary-pdf" id="pdfBtnSingleBottom" onclick="downloadNativePDF('single-capture', 'pdfBtnSingleBottom', 'singleInfoMsg')">PDF 파일 다운로드</button>
+          <button class="btn-action" onclick="safePrintReport('single', 'singleInfoMsg')">리포트 인쇄</button>
+          <button class="btn-action btn-primary-pdf" id="pdfBtnSingleBottom" onclick="exportReportAsPDF('single', 'pdfBtnSingleBottom', 'singleInfoMsg')">PDF 파일 다운로드</button>
         </div>
       </div>
     </div>
@@ -819,9 +887,9 @@
 
     <div id="compat-report-area" style="display:none;">
       <div class="action-bar">
-        <button class="btn-action" onclick="safePrintReport('compat-capture', 'compatInfoMsg')">궁합 리포트 인쇄</button>
-        <button class="btn-action btn-png" id="pngBtnCompat" onclick="downloadNativePNG('compat-capture', 'pngBtnCompat', 'compatInfoMsg')">고화질 PNG 저장</button>
-        <button class="btn-action btn-primary-pdf" id="pdfBtnCompat" onclick="downloadNativePDF('compat-capture', 'pdfBtnCompat', 'compatInfoMsg')">궁합 PDF 다운로드</button>
+        <button class="btn-action" onclick="safePrintReport('compat', 'compatInfoMsg')">궁합 리포트 인쇄</button>
+        <button class="btn-action btn-png" id="pngBtnCompat" onclick="exportReportAsPNG('compat', 'pngBtnCompat', 'compatInfoMsg')">고화질 PNG 저장</button>
+        <button class="btn-action btn-primary-pdf" id="pdfBtnCompat" onclick="exportReportAsPDF('compat', 'pdfBtnCompat', 'compatInfoMsg')">궁합 PDF 다운로드</button>
       </div>
       <div id="compatInfoMsg" class="toast-info"></div>
 
@@ -893,7 +961,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card pdf-page-break">
           <div class="section-title">심층 관계 및 시너지 코칭 리포트</div>
           <div class="analysis-grid" id="compatDetailGrid"></div>
         </div>
@@ -914,8 +982,182 @@
       <div class="pdf-cta-bar">
         <p>사주&amp;컬러코드 두 사람의 궁합 점수 및 시너지 코칭 리포트를 PDF로 소장하세요.</p>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn-action" onclick="safePrintReport('compat-capture', 'compatInfoMsg')">궁합 리포트 인쇄</button>
-          <button class="btn-action btn-primary-pdf" id="pdfBtnCompatBottom" onclick="downloadNativePDF('compat-capture', 'pdfBtnCompatBottom', 'compatInfoMsg')">궁합 PDF 다운로드</button>
+          <button class="btn-action" onclick="safePrintReport('compat', 'compatInfoMsg')">궁합 리포트 인쇄</button>
+          <button class="btn-action btn-primary-pdf" id="pdfBtnCompatBottom" onclick="exportReportAsPDF('compat', 'pdfBtnCompatBottom', 'compatInfoMsg')">궁합 PDF 다운로드</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       [탭 3] 데이터 관리 & 커스텀 편집
+       ===================================================================== -->
+  <div id="view-editor" style="display:none;">
+    <div class="card">
+      <div class="section-title">
+        <span>컬러 코드 &amp; 심층 해석 데이터 커스텀 편집</span>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-action" onclick="exportCustomDataJSON()">JSON 백업 내보내기</button>
+          <button class="btn-action" onclick="document.getElementById('jsonImportInput').click()">JSON 불러오기</button>
+          <input type="file" id="jsonImportInput" accept=".json,application/json" style="display:none;" onchange="importCustomDataJSON(event)" />
+          <button class="btn-action btn-danger" onclick="resetAllCustomData()">전체 기본값 초기화</button>
+        </div>
+      </div>
+      <p style="font-size:0.88rem; color:#475569; margin-bottom:14px;">
+        10가지 일간별 본질 컬러·오감 테라피 가이드·10대 심층 해석 문구와 5가지 오행 개운 컬러 데이터를 자유롭게 수정할 수 있습니다. 저장 시 브라우저에 영구 반영되며 PDF·PNG 리포트에도 즉시 적용됩니다.
+      </p>
+
+      <div id="editorStatusMsg" class="toast-success"></div>
+
+      <div class="edit-toolbar">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <label for="editGanSelect" style="font-size:0.9rem; font-weight:700; color:#0f172a;">편집할 본질 일간 선택:</label>
+          <select id="editGanSelect" style="width:auto; min-width:220px;" onchange="loadIlganEditorForm()">
+            <option value="갑">갑목 (甲木 · 딥 포레스트 그린)</option>
+            <option value="을">을목 (乙木 · 파스텔 민트 그린)</option>
+            <option value="병">병화 (丙火 · 선셋 오렌지)</option>
+            <option value="정">정화 (丁火 · 코랄 버건디)</option>
+            <option value="무">무토 (戊土 · 웜 테라코타)</option>
+            <option value="기">기토 (己土 · 샌드 머스타드)</option>
+            <option value="경">경금 (庚金 · 퓨어 실버 화이트)</option>
+            <option value="신">신금 (辛金 · 아이스 펄 블루)</option>
+            <option value="임">임수 (壬水 · 미드나잇 네이비)</option>
+            <option value="계">계수 (癸水 · 미스티 라벤더)</option>
+          </select>
+        </div>
+        <button class="btn-action btn-primary-pdf" onclick="saveIlganEditorForm()">현재 일간 변경사항 저장 &amp; 반영</button>
+      </div>
+
+      <div class="edit-section-grid">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>본질 컬러명</label>
+            <input type="text" id="edColorName" />
+          </div>
+          <div class="form-group">
+            <label>컬러 HEX 코드</label>
+            <div class="color-picker-row">
+              <input type="color" id="edColorPicker" oninput="document.getElementById('edColorHex').value = this.value" />
+              <input type="text" id="edColorHex" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)) document.getElementById('edColorPicker').value = this.value" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>핵심 키워드</label>
+            <input type="text" id="edKeyword" />
+          </div>
+          <div class="form-group">
+            <label>물상 페르소나 문구</label>
+            <input type="text" id="edPersona" />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>패션 포인트 가이드</label>
+            <textarea id="edFashion"></textarea>
+          </div>
+          <div class="form-group">
+            <label>공간 인테리어 팁</label>
+            <textarea id="edInterior"></textarea>
+          </div>
+          <div class="form-group">
+            <label>추천 아로마 향기 노트</label>
+            <textarea id="edAroma"></textarea>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>1. 타고난 기질 및 성향</label>
+            <textarea id="edTemperament"></textarea>
+          </div>
+          <div class="form-group">
+            <label>2. 핵심 강점과 무기</label>
+            <textarea id="edStrength"></textarea>
+          </div>
+          <div class="form-group">
+            <label>3. 보완점 및 리스크 관리 패턴</label>
+            <textarea id="edWeakness"></textarea>
+          </div>
+          <div class="form-group">
+            <label>4. 맞춤 성장 코칭 및 컬러 루틴</label>
+            <textarea id="edCoaching"></textarea>
+          </div>
+          <div class="form-group">
+            <label>5. 남들이 보는 나 (외적 이미지)</label>
+            <textarea id="edExternal"></textarea>
+          </div>
+          <div class="form-group">
+            <label>6. 인간관계 및 합이 잘 맞는 사람</label>
+            <textarea id="edCompat"></textarea>
+          </div>
+          <div class="form-group">
+            <label>7. 재물운 및 자산 증식 전략</label>
+            <textarea id="edWealth"></textarea>
+          </div>
+          <div class="form-group">
+            <label>8. 연애운 및 이상적인 파트너십</label>
+            <textarea id="edLove"></textarea>
+          </div>
+          <div class="form-group">
+            <label>9. 직업운 및 최적의 적성 분야</label>
+            <textarea id="edCareer"></textarea>
+          </div>
+          <div class="form-group">
+            <label>10. 건강운 및 체질 에너지 관리법</label>
+            <textarea id="edHealth"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5대 개운 컬러 편집 카드 -->
+    <div class="card">
+      <div class="section-title">
+        <span>5대 오행 보완(개운) 컬러 가이드 편집</span>
+        <button class="btn-action btn-primary-pdf" onclick="saveBalanceEditorForm()">개운 컬러 변경사항 저장 &amp; 반영</button>
+      </div>
+      <div class="edit-toolbar">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <label for="editOhaengSelect" style="font-size:0.9rem; font-weight:700; color:#0f172a;">편집할 부족 오행 선택:</label>
+          <select id="editOhaengSelect" style="width:auto; min-width:220px;" onchange="loadBalanceEditorForm()">
+            <option value="목">목 (木) 부족 보완 컬러</option>
+            <option value="화">화 (火) 부족 보완 컬러</option>
+            <option value="토">토 (土) 부족 보완 컬러</option>
+            <option value="금">금 (金) 부족 보완 컬러</option>
+            <option value="수">수 (水) 부족 보완 컬러</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>개운 컬러명</label>
+          <input type="text" id="edBalName" />
+        </div>
+        <div class="form-group">
+          <label>컬러 HEX 코드</label>
+          <div class="color-picker-row">
+            <input type="color" id="edBalPicker" oninput="document.getElementById('edBalHex').value = this.value" />
+            <input type="text" id="edBalHex" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)) document.getElementById('edBalPicker').value = this.value" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>핵심 효능 요약</label>
+          <input type="text" id="edBalDesc" />
+        </div>
+      </div>
+      <div class="form-grid" style="margin-top:14px;">
+        <div class="form-group">
+          <label>개운 패션 포인트</label>
+          <textarea id="edBalFashion"></textarea>
+        </div>
+        <div class="form-group">
+          <label>개운 공간 인테리어 팁</label>
+          <textarea id="edBalInterior"></textarea>
+        </div>
+        <div class="form-group">
+          <label>개운 추천 아로마 노트</label>
+          <textarea id="edBalAroma"></textarea>
         </div>
       </div>
     </div>
@@ -1012,7 +1254,7 @@ function getSolarLongitudeKST(dateObjKST) {
 }
 
 // ============================================================================
-// [C] 명리 기초 상수 및 10대 본질 컬러 · 5대 개운 컬러 오감 테라피 DB
+// [C] 명리 기초 상수 및 기본 DB (커스텀 편집 및 localStorage 연동)
 // ============================================================================
 const CHEONGAN = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
 const CHEONGAN_HANJA = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
@@ -1030,7 +1272,7 @@ const JI_ANIMAL_NAME = ["쥐", "소", "호랑이", "토끼", "용", "뱀", "말"
 const TWELVE_UNSEONG_NAMES = ["장생", "목욕", "관대", "건록", "제왕", "쇠", "병", "사", "묘", "절", "태", "양"];
 const JANGSAENG_JI = [11, 6, 2, 9, 2, 9, 5, 0, 8, 3];
 
-const TEMPERAMENT_COLORS = {
+const DEFAULT_TEMPERAMENT_COLORS = {
   "갑": {
     name: "딥 포레스트 그린",
     hex: "#1B4D3E",
@@ -1123,7 +1365,7 @@ const TEMPERAMENT_COLORS = {
   }
 };
 
-const BALANCE_COLORS = {
+const DEFAULT_BALANCE_COLORS = {
   "목": {
     name: "보태니컬 그린",
     hex: "#2E8B57",
@@ -1194,7 +1436,7 @@ const ILJI_SIPSEONG_MOD = {
   "정인": "학구열이 높고 따뜻한 포용력과 문서운(자격·부동산)을 타고나, 주변의 도움과 인정을 받으며 품위 있게 성장합니다."
 };
 
-const ILGAN_DB = {
+const DEFAULT_ILGAN_DB = {
   "갑": {
     temperament: "목표가 정해지면 뒤돌아보지 않고 직진하는 개척자형 기질입니다. 자존심과 주체성이 매우 강해 남의 지시를 수동적으로 따르기보다 스스로 판을 짜고 주도권을 쥘 때 가장 큰 생명력을 발휘합니다. 속마음이 투명하고 불의를 보면 참지 못하는 대장부 기질이 있으며, 새로운 환경을 두려워하지 않고 맨 앞에서 길을 여는 리더의 본성을 타고났습니다.",
     strength: "위기 상황에서도 쉽게 꺾이지 않는 압도적인 추진력과 기획력, 아무것도 없는 맨땅에서 새로운 구조를 일궈내는 돌파력이 최고의 무기입니다. 한 번 책임지기로 마음먹은 일은 끝까지 밀어붙이는 우직한 성실성을 갖추고 있습니다.",
@@ -1380,9 +1622,58 @@ const SEUN_YEAR_DETAIL = {
   }
 };
 
+// 활성 데이터베이스 (localStorage 불러오기 및 병합)
+const STORAGE_KEY_V1 = "saju_color_code_custom_db_v1";
+let TEMPERAMENT_COLORS = JSON.parse(JSON.stringify(DEFAULT_TEMPERAMENT_COLORS));
+let BALANCE_COLORS = JSON.parse(JSON.stringify(DEFAULT_BALANCE_COLORS));
+let ILGAN_DB = JSON.parse(JSON.stringify(DEFAULT_ILGAN_DB));
+
+function loadCustomDBFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_V1);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (parsed.temperamentColors) {
+      Object.keys(DEFAULT_TEMPERAMENT_COLORS).forEach(k => {
+        if (parsed.temperamentColors[k]) {
+          TEMPERAMENT_COLORS[k] = { ...DEFAULT_TEMPERAMENT_COLORS[k], ...parsed.temperamentColors[k] };
+        }
+      });
+    }
+    if (parsed.balanceColors) {
+      Object.keys(DEFAULT_BALANCE_COLORS).forEach(k => {
+        if (parsed.balanceColors[k]) {
+          BALANCE_COLORS[k] = { ...DEFAULT_BALANCE_COLORS[k], ...parsed.balanceColors[k] };
+        }
+      });
+    }
+    if (parsed.ilganDb) {
+      Object.keys(DEFAULT_ILGAN_DB).forEach(k => {
+        if (parsed.ilganDb[k]) {
+          ILGAN_DB[k] = { ...DEFAULT_ILGAN_DB[k], ...parsed.ilganDb[k] };
+        }
+      });
+    }
+  } catch (e) {}
+}
+
+function persistCustomDBToStorage() {
+  try {
+    const payload = {
+      temperamentColors: TEMPERAMENT_COLORS,
+      balanceColors: BALANCE_COLORS,
+      ilganDb: ILGAN_DB
+    };
+    localStorage.setItem(STORAGE_KEY_V1, JSON.stringify(payload));
+  } catch (e) {}
+}
+
 // ============================================================================
-// [D] UI 제어 및 공통 만세력 코어 엔진
+// [D] UI 제어, 데이터 커스텀 편집기 및 공통 만세력 코어 엔진
 // ============================================================================
+let LAST_SINGLE_REPORT = null;
+let LAST_COMPAT_REPORT = null;
+
 function showMsg(boxId, text) {
   const el = document.getElementById(boxId);
   if (!el) return;
@@ -1398,8 +1689,14 @@ function showMsg(boxId, text) {
 function switchTab(mode) {
   document.getElementById("tab-single").classList.toggle("active", mode === "single");
   document.getElementById("tab-compat").classList.toggle("active", mode === "compat");
+  document.getElementById("tab-editor").classList.toggle("active", mode === "editor");
   document.getElementById("view-single").style.display = mode === "single" ? "block" : "none";
   document.getElementById("view-compat").style.display = mode === "compat" ? "block" : "none";
+  document.getElementById("view-editor").style.display = mode === "editor" ? "block" : "none";
+  if (mode === "editor") {
+    loadIlganEditorForm();
+    loadBalanceEditorForm();
+  }
 }
 
 function toggleLeap(radioName, labelId, checkId) {
@@ -1410,6 +1707,154 @@ function toggleLeap(radioName, labelId, checkId) {
 
 function toggleTime(checkId, timeId) {
   document.getElementById(timeId).disabled = document.getElementById(checkId).checked;
+}
+
+function loadIlganEditorForm() {
+  const gan = document.getElementById("editGanSelect").value;
+  const tc = TEMPERAMENT_COLORS[gan];
+  const db = ILGAN_DB[gan];
+  document.getElementById("edColorName").value = tc.name || "";
+  document.getElementById("edColorHex").value = tc.hex || "#1B4D3E";
+  document.getElementById("edColorPicker").value = /^#[0-9A-Fa-f]{6}$/.test(tc.hex) ? tc.hex : "#1B4D3E";
+  document.getElementById("edKeyword").value = tc.keyword || "";
+  document.getElementById("edPersona").value = tc.persona || "";
+  document.getElementById("edFashion").value = tc.fashion || "";
+  document.getElementById("edInterior").value = tc.interior || "";
+  document.getElementById("edAroma").value = tc.aroma || "";
+
+  document.getElementById("edTemperament").value = db.temperament || "";
+  document.getElementById("edStrength").value = db.strength || "";
+  document.getElementById("edWeakness").value = db.weakness || "";
+  document.getElementById("edCoaching").value = db.coaching || "";
+  document.getElementById("edExternal").value = db.externalView || "";
+  document.getElementById("edCompat").value = db.compatibility || "";
+  document.getElementById("edWealth").value = db.wealth || "";
+  document.getElementById("edLove").value = db.love || "";
+  document.getElementById("edCareer").value = db.career || "";
+  document.getElementById("edHealth").value = db.health || "";
+}
+
+function saveIlganEditorForm() {
+  const gan = document.getElementById("editGanSelect").value;
+  TEMPERAMENT_COLORS[gan] = {
+    name: document.getElementById("edColorName").value.trim() || DEFAULT_TEMPERAMENT_COLORS[gan].name,
+    hex: document.getElementById("edColorHex").value.trim() || DEFAULT_TEMPERAMENT_COLORS[gan].hex,
+    keyword: document.getElementById("edKeyword").value.trim(),
+    persona: document.getElementById("edPersona").value.trim(),
+    fashion: document.getElementById("edFashion").value.trim(),
+    interior: document.getElementById("edInterior").value.trim(),
+    aroma: document.getElementById("edAroma").value.trim()
+  };
+  ILGAN_DB[gan] = {
+    temperament: document.getElementById("edTemperament").value.trim(),
+    strength: document.getElementById("edStrength").value.trim(),
+    weakness: document.getElementById("edWeakness").value.trim(),
+    coaching: document.getElementById("edCoaching").value.trim(),
+    externalView: document.getElementById("edExternal").value.trim(),
+    compatibility: document.getElementById("edCompat").value.trim(),
+    wealth: document.getElementById("edWealth").value.trim(),
+    love: document.getElementById("edLove").value.trim(),
+    career: document.getElementById("edCareer").value.trim(),
+    health: document.getElementById("edHealth").value.trim()
+  };
+  persistCustomDBToStorage();
+  runSingleAnalysis(false);
+  if (LAST_COMPAT_REPORT) runCompatAnalysis(false);
+  showMsg("editorStatusMsg", `'${gan}' 일간의 컬러 및 10대 심층 해석 데이터가 저장되어 리포트에 즉시 반영되었습니다.`);
+}
+
+function loadBalanceEditorForm() {
+  const oh = document.getElementById("editOhaengSelect").value;
+  const bc = BALANCE_COLORS[oh];
+  document.getElementById("edBalName").value = bc.name || "";
+  document.getElementById("edBalHex").value = bc.hex || "#2E8B57";
+  document.getElementById("edBalPicker").value = /^#[0-9A-Fa-f]{6}$/.test(bc.hex) ? bc.hex : "#2E8B57";
+  document.getElementById("edBalDesc").value = bc.desc || "";
+  document.getElementById("edBalFashion").value = bc.fashion || "";
+  document.getElementById("edBalInterior").value = bc.interior || "";
+  document.getElementById("edBalAroma").value = bc.aroma || "";
+}
+
+function saveBalanceEditorForm() {
+  const oh = document.getElementById("editOhaengSelect").value;
+  BALANCE_COLORS[oh] = {
+    name: document.getElementById("edBalName").value.trim() || DEFAULT_BALANCE_COLORS[oh].name,
+    hex: document.getElementById("edBalHex").value.trim() || DEFAULT_BALANCE_COLORS[oh].hex,
+    desc: document.getElementById("edBalDesc").value.trim(),
+    fashion: document.getElementById("edBalFashion").value.trim(),
+    interior: document.getElementById("edBalInterior").value.trim(),
+    aroma: document.getElementById("edBalAroma").value.trim()
+  };
+  persistCustomDBToStorage();
+  runSingleAnalysis(false);
+  if (LAST_COMPAT_REPORT) runCompatAnalysis(false);
+  showMsg("editorStatusMsg", `'${oh}' 오행 보완(개운) 컬러 가이드가 저장되어 리포트에 즉시 반영되었습니다.`);
+}
+
+function exportCustomDataJSON() {
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    temperamentColors: TEMPERAMENT_COLORS,
+    balanceColors: BALANCE_COLORS,
+    ilganDb: ILGAN_DB
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+  triggerBlobDownload(blob, "사주컬러코드_커스텀데이터_백업.json");
+  showMsg("editorStatusMsg", "현재 컬러 및 해석 데이터 전체가 JSON 파일로 백업 다운로드되었습니다.");
+}
+
+function importCustomDataJSON(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed.temperamentColors) {
+        Object.keys(DEFAULT_TEMPERAMENT_COLORS).forEach(k => {
+          if (parsed.temperamentColors[k]) {
+            TEMPERAMENT_COLORS[k] = { ...DEFAULT_TEMPERAMENT_COLORS[k], ...parsed.temperamentColors[k] };
+          }
+        });
+      }
+      if (parsed.balanceColors) {
+        Object.keys(DEFAULT_BALANCE_COLORS).forEach(k => {
+          if (parsed.balanceColors[k]) {
+            BALANCE_COLORS[k] = { ...DEFAULT_BALANCE_COLORS[k], ...parsed.balanceColors[k] };
+          }
+        });
+      }
+      if (parsed.ilganDb) {
+        Object.keys(DEFAULT_ILGAN_DB).forEach(k => {
+          if (parsed.ilganDb[k]) {
+            ILGAN_DB[k] = { ...DEFAULT_ILGAN_DB[k], ...parsed.ilganDb[k] };
+          }
+        });
+      }
+      persistCustomDBToStorage();
+      loadIlganEditorForm();
+      loadBalanceEditorForm();
+      runSingleAnalysis(false);
+      if (LAST_COMPAT_REPORT) runCompatAnalysis(false);
+      showMsg("editorStatusMsg", "JSON 백업 데이터를 성공적으로 불러와 적용했습니다.");
+    } catch (err) {
+      showMsg("editorStatusMsg", "올바른 JSON 백업 파일 형식이 아닙니다. 파일을 다시 확인해 주세요.");
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file, "utf-8");
+}
+
+function resetAllCustomData() {
+  TEMPERAMENT_COLORS = JSON.parse(JSON.stringify(DEFAULT_TEMPERAMENT_COLORS));
+  BALANCE_COLORS = JSON.parse(JSON.stringify(DEFAULT_BALANCE_COLORS));
+  ILGAN_DB = JSON.parse(JSON.stringify(DEFAULT_ILGAN_DB));
+  try { localStorage.removeItem(STORAGE_KEY_V1); } catch (e) {}
+  loadIlganEditorForm();
+  loadBalanceEditorForm();
+  runSingleAnalysis(false);
+  if (LAST_COMPAT_REPORT) runCompatAnalysis(false);
+  showMsg("editorStatusMsg", "모든 컬러 및 해석 데이터가 초기 기본값으로 복원되었습니다.");
 }
 
 function getSipseong(dayGanIdx, targetGanIdx) {
@@ -1609,11 +2054,11 @@ function runSingleAnalysis(shouldScroll = true) {
     ? "시간 미상 (삼주 기반 정밀 분석)"
     : (useTrueSolar ? `진태양시 보정 ${hh}:${mm}` : `한국 표준시 ${hh}:${mm}`);
 
-  document.getElementById("metaInfo").textContent =
-    `양력 ${solarY}년 ${solarM}월 ${solarD}일 · ${gender}성 (2026년 기준 ${currentKoreanAge}세) · ${timeDisplay}`;
+  const metaInfoStr = `양력 ${solarY}년 ${solarM}월 ${solarD}일 · ${gender}성 (2026년 기준 ${currentKoreanAge}세) · ${timeDisplay}`;
+  document.getElementById("metaInfo").textContent = metaInfoStr;
 
-  document.getElementById("overallSummary").textContent =
-    `${name}님은 '${tempColor.name}(${dayGan}일간)'의 본질 에너지를 지닌 '${animalSymbol}' 상으로, 내면에는 ${ILJI_INNER_TRAIT[dayJi]} 전체 오행 중 '${strongestOhaeng}' 기운이 주도적이며 '${weakestOhaeng}' 기운을 보완할 때 삶의 균형이 극대화됩니다.`;
+  const overallSummaryStr = `${name}님은 '${tempColor.name}(${dayGan}일간)'의 본질 에너지를 지닌 '${animalSymbol}' 상으로, 내면에는 ${ILJI_INNER_TRAIT[dayJi]} 전체 오행 중 '${strongestOhaeng}' 기운이 주도적이며 '${weakestOhaeng}' 기운을 보완할 때 삶의 균형이 극대화됩니다.`;
+  document.getElementById("overallSummary").textContent = overallSummaryStr;
 
   document.getElementById("tempSwatch").style.backgroundColor = tempColor.hex;
   document.getElementById("tempColorName").textContent = tempColor.name;
@@ -1685,8 +2130,8 @@ function runSingleAnalysis(shouldScroll = true) {
     rowJiSipseong + "</tr>" +
     row12Unseong + "</tr>";
 
-  document.getElementById("daeunDirectionBadge").textContent =
-    `${isForward ? "순행(順行)" : "역행(逆行)"} · ${daeunList[0].age}세 대운수`;
+  const daeunDirStr = `${isForward ? "순행(順行)" : "역행(逆行)"} · ${daeunList[0].age}세 대운수`;
+  document.getElementById("daeunDirectionBadge").textContent = daeunDirStr;
 
   let daeunHTML = "";
   let activeDaeunObj = daeunList[0];
@@ -1750,11 +2195,11 @@ function runSingleAnalysis(shouldScroll = true) {
   `;
 
   const ohaengMeta = [
-    { key: "목", label: "목 (木)", color: "var(--wood)" },
-    { key: "화", label: "화 (火)", color: "var(--fire)" },
-    { key: "토", label: "토 (土)", color: "var(--earth)" },
-    { key: "금", label: "금 (金)", color: "var(--metal)" },
-    { key: "수", label: "수 (水)", color: "var(--water)" }
+    { key: "목", label: "목 (木)", color: "var(--wood)", hex: "#2e8b57" },
+    { key: "화", label: "화 (火)", color: "var(--fire)", hex: "#e05252" },
+    { key: "토", label: "토 (土)", color: "var(--earth)", hex: "#d99b26" },
+    { key: "금", label: "금 (金)", color: "var(--metal)", hex: "#64748b" },
+    { key: "수", label: "수 (水)", color: "var(--water)", hex: "#2563eb" }
   ];
 
   document.getElementById("ohaengBars").innerHTML = ohaengMeta.map(item => `
@@ -1765,8 +2210,10 @@ function runSingleAnalysis(shouldScroll = true) {
     </div>
   `).join("");
 
-  const excessText = excessList.length > 0 ? `<strong>${excessList.join(", ")}</strong> 기운이 강하게 발달해 있으며` : "특정 오행으로의 극단적 치우침 없이 고른 편이며";
-  const lackingText = lackingList.length > 0 ? `<strong>${lackingList.join(", ")}</strong> 기운이 부족(10% 이하)합니다.` : `상대적으로 <strong>${weakestOhaeng}</strong> 기운을 보강하면 더욱 좋습니다.`;
+  const excessText = excessList.length > 0 ? `${excessList.join(", ")} 기운이 강하게 발달해 있으며` : "특정 오행으로의 극단적 치우침 없이 고른 편이며";
+  const lackingText = lackingList.length > 0 ? `${lackingList.join(", ")} 기운이 부족(10% 이하)합니다.` : `상대적으로 ${weakestOhaeng} 기운을 보강하면 더욱 좋습니다.`;
+  const ohaengSummaryPlain = `계절(월지) 가중치를 반영한 결과, ${excessText} ${lackingText} 부족한 ${weakestOhaeng} 기운을 채우기 위해 ${balColor.name} 계열의 컬러와 소품을 가까이 두는 것을 권장합니다.`;
+
   document.getElementById("ohaengSummaryText").innerHTML =
     `계절(월지) 가중치를 반영한 결과, ${excessText} ${lackingText} 부족한 <strong>${weakestOhaeng}</strong> 기운을 채우기 위해 <strong>${balColor.name}</strong> 계열의 컬러와 소품을 가까이 두는 것을 권장합니다.`;
 
@@ -1799,8 +2246,21 @@ function runSingleAnalysis(shouldScroll = true) {
   const ohaengRatioStr = ohaengMeta.map(m => `${m.key} ${ratios[m.key]}%`).join(" · ");
 
   document.getElementById("finalSummaryBadge").textContent = `${name}님 마스터 요약표`;
-  document.getElementById("finalSummaryLead").textContent =
-    `${name}님은 '${tempColor.persona}(${iljuName} · ${animalSymbol})'의 기질을 타고났으며, 본질 컬러인 '${tempColor.name}'의 강점을 살리면서 개운 컬러인 '${balColor.name}'으로 부족한 '${weakestOhaeng}' 에너지를 채울 때 최고의 운세 흐름을 만듭니다.`;
+  const finalSummaryLeadStr = `${name}님은 '${tempColor.persona}(${iljuName} · ${animalSymbol})'의 기질을 타고났으며, 본질 컬러인 '${tempColor.name}'의 강점을 살리면서 개운 컬러인 '${balColor.name}'으로 부족한 '${weakestOhaeng}' 에너지를 채울 때 최고의 운세 흐름을 만듭니다.`;
+  document.getElementById("finalSummaryLead").textContent = finalSummaryLeadStr;
+
+  const summaryRows = [
+    { key: "기본 명식 (4기둥)", val: pillarSummaryStr },
+    { key: "기질 & 개운 컬러", val: `본질 컬러: ${tempColor.name} (${tempColor.keyword}) / 보완 컬러: ${balColor.name} (${weakestOhaeng} 기운 보충)` },
+    { key: "오감 테라피 포인트", val: `패션: ${tempColor.fashion}\n향기 노트: ${tempColor.aroma}` },
+    { key: "오행 에너지 밸런스", val: `${ohaengRatioStr}\n→ 주도 기운: ${strongestOhaeng} (${ratios[strongestOhaeng]}%) / 보완 필요: ${weakestOhaeng} (${ratios[weakestOhaeng]}%)` },
+    { key: "핵심 강점 & 코칭", val: `${db.strength} → [${s26.theme}] 방향으로 실행력을 집중하세요.` },
+    { key: "재물 · 직업 핵심", val: `적성: ${db.career}\n재물 전략: ${ILJI_SIPSEONG_MOD[iljiSipseong]}` },
+    { key: "연애 · 궁합 포인트", val: db.compatibility },
+    { key: "건강 관리 핵심", val: db.health },
+    { key: "2026 병오년 전략", val: `[${seun2026GanSip}·${seun2026JiSip}운] ${s26.theme} — ${s26.action}` },
+    { key: "2027 정미년 전략", val: `[${seun2027GanSip}·${seun2027JiSip}운] ${s27.theme} — ${s27.action}` }
+  ];
 
   document.getElementById("finalSummaryTableBody").innerHTML = `
     <tr><th>기본 명식 (4기둥)</th><td>${pillarSummaryStr}</td></tr>
@@ -1814,6 +2274,17 @@ function runSingleAnalysis(shouldScroll = true) {
     <tr><th>2026 병오년 전략</th><td><strong>[${seun2026GanSip}·${seun2026JiSip}운]</strong> ${s26.theme} — ${s26.action}</td></tr>
     <tr><th>2027 정미년 전략</th><td><strong>[${seun2027GanSip}·${seun2027JiSip}운]</strong> ${s27.theme} — ${s27.action}</td></tr>
   `;
+
+  // 순수 Canvas 네이티브 PDF/PNG 엔진용 구조화 데이터 보관
+  LAST_SINGLE_REPORT = {
+    name, gender, iljuName, animalSymbol, pStr, metaInfoStr, overallSummaryStr,
+    tempColor, balColor, weakestOhaeng, strongestOhaeng,
+    pillars, dayGanIdx, daeunDirStr, daeunList, currentKoreanAge, curDaeunStr,
+    seun2026GanSip, seun2026JiSip, s26,
+    seun2027GanSip, seun2027JiSip, s27,
+    ohaengMeta, ratios, ohaengSummaryPlain,
+    details, finalSummaryLeadStr, summaryRows
+  };
 
   document.getElementById("single-report-area").style.display = "block";
   if (shouldScroll) {
@@ -1899,7 +2370,6 @@ function evaluateOhaengSynergy(p1, p2) {
   const p2SupplyForP1 = p2.ratios[p1.weakestOhaeng] || 0;
   const p1SupplyForP2 = p1.ratios[p2.weakestOhaeng] || 0;
   const avgSupply = (p2SupplyForP1 + p1SupplyForP2) / 2;
-
   const rawScore = Math.min(99, Math.max(65, Math.round(65 + avgSupply * 1.1)));
 
   let label = "균형 보완형";
@@ -1961,10 +2431,11 @@ function runCompatAnalysis(shouldScroll = true) {
   const p2Animal = `${GAN_COLOR_PREFIX[p2.dayGanIdx]} ${JI_ANIMAL_NAME[p2.pillars.day.jiIdx]}`;
 
   document.getElementById("compatPairBadge").textContent = `${p1.name}(${p1Ilju}) × ${p2.name}(${p2Ilju})`;
-  document.getElementById("compatHeadline").textContent =
-    `${p1.name}님과 ${p2.name}님의 종합 시너지는 ${totalScore}점입니다.`;
-  document.getElementById("compatSubSummary").textContent =
-    `'${p1Animal}' 기질과 '${p2Animal}' 기질의 만남으로, 정신적 교감(${ganRes.score}점)과 현실 호흡(${jiRes.score}점), 에너지 상호 보완(${ohRes.score}점)이 어우러진 관계입니다.`;
+  const compatHeadlineStr = `${p1.name}님과 ${p2.name}님의 종합 시너지는 ${totalScore}점입니다.`;
+  const compatSubSummaryStr = `'${p1Animal}' 기질과 '${p2Animal}' 기질의 만남으로, 정신적 교감(${ganRes.score}점)과 현실 호흡(${jiRes.score}점), 에너지 상호 보완(${ohRes.score}점)이 어우러진 관계입니다.`;
+
+  document.getElementById("compatHeadline").textContent = compatHeadlineStr;
+  document.getElementById("compatSubSummary").textContent = compatSubSummaryStr;
   document.getElementById("totalCompatScore").textContent = `${totalScore}점`;
 
   document.getElementById("ganScoreVal").textContent = `${ganRes.score}점`;
@@ -1990,14 +2461,20 @@ function runCompatAnalysis(shouldScroll = true) {
   document.getElementById("thP2").textContent = `${p2.name} (${p2.gender})`;
 
   const fmtP = (p) => p ? `${CHEONGAN_HANJA[p.ganIdx]}${JIJI_HANJA[p.jiIdx]} (${CHEONGAN[p.ganIdx]}${JIJI[p.jiIdx]})` : "시간 미상";
-  document.getElementById("compatCompareBody").innerHTML = `
-    <tr><td><strong>일주 (본질·배우자궁)</strong></td><td><strong>${fmtP(p1.pillars.day)}</strong></td><td><strong>${fmtP(p2.pillars.day)}</strong></td></tr>
-    <tr><td><strong>월주 (사회성·환경)</strong></td><td>${fmtP(p1.pillars.month)}</td><td>${fmtP(p2.pillars.month)}</td></tr>
-    <tr><td><strong>년주 (초년·가풍)</strong></td><td>${fmtP(p1.pillars.year)}</td><td>${fmtP(p2.pillars.year)}</td></tr>
-    <tr><td><strong>시주 (말년·내면)</strong></td><td>${fmtP(p1.pillars.hour)}</td><td>${fmtP(p2.pillars.hour)}</td></tr>
-    <tr><td><strong>가장 강한 오행</strong></td><td>${p1.strongestOhaeng} (${p1.ratios[p1.strongestOhaeng]}%)</td><td>${p2.strongestOhaeng} (${p2.ratios[p2.strongestOhaeng]}%)</td></tr>
-    <tr><td><strong>보완 필요 오행</strong></td><td>${p1.weakestOhaeng} (${p1.ratios[p1.weakestOhaeng]}%)</td><td>${p2.weakestOhaeng} (${p2.ratios[p2.weakestOhaeng]}%)</td></tr>
-  `;
+  const compareRows = [
+    { label: "일주 (본질·배우자궁)", v1: fmtP(p1.pillars.day), v2: fmtP(p2.pillars.day) },
+    { label: "월주 (사회성·환경)", v1: fmtP(p1.pillars.month), v2: fmtP(p2.pillars.month) },
+    { label: "년주 (초년·가풍)", v1: fmtP(p1.pillars.year), v2: fmtP(p2.pillars.year) },
+    { label: "시주 (말년·내면)", v1: fmtP(p1.pillars.hour), v2: fmtP(p2.pillars.hour) },
+    { label: "가장 강한 오행", v1: `${p1.strongestOhaeng} (${p1.ratios[p1.strongestOhaeng]}%)`, v2: `${p2.strongestOhaeng} (${p2.ratios[p2.strongestOhaeng]}%)` },
+    { label: "보완 필요 오행", v1: `${p1.weakestOhaeng} (${p1.ratios[p1.weakestOhaeng]}%)`, v2: `${p2.weakestOhaeng} (${p2.ratios[p2.weakestOhaeng]}%)` }
+  ];
+
+  document.getElementById("compatCompareBody").innerHTML = compareRows.map((r, i) =>
+    i === 0
+      ? `<tr><td><strong>${r.label}</strong></td><td><strong>${r.v1}</strong></td><td><strong>${r.v2}</strong></td></tr>`
+      : `<tr><td><strong>${r.label}</strong></td><td>${r.v1}</td><td>${r.v2}</td></tr>`
+  ).join("");
 
   const compatDetails = [
     {
@@ -2026,6 +2503,14 @@ function runCompatAnalysis(shouldScroll = true) {
   `).join("");
 
   document.getElementById("compatFinalBadge").textContent = `${p1.name} × ${p2.name} 마스터 요약`;
+  const compatSummaryRows = [
+    { key: "두 사람 일주 조합", val: `${p1.name} (${p1Ilju} · ${p1Animal}) × ${p2.name} (${p2Ilju} · ${p2Animal})` },
+    { key: "종합 시너지 점수", val: `${totalScore}점 (천간 교감 ${ganRes.score}점 · 일지 호흡 ${jiRes.score}점 · 오행 보완 ${ohRes.score}점)` },
+    { key: "본질 컬러 매칭", val: `${p1.name}: ${c1.name} / ${p2.name}: ${c2.name}` },
+    { key: "공통 행운 컬러", val: `${BALANCE_COLORS[p1.weakestOhaeng].name} (${p1.weakestOhaeng} 보충) & ${BALANCE_COLORS[p2.weakestOhaeng].name} (${p2.weakestOhaeng} 보충)` },
+    { key: "핵심 시너지 요약", val: `${ganRes.label} + ${jiRes.label} 구조로, 서로의 부족한 오행을 자연스럽게 채워주는 건설적인 파트너십입니다.` }
+  ];
+
   document.getElementById("compatFinalSummaryBody").innerHTML = `
     <tr><th>두 사람 일주 조합</th><td>${p1.name} (${p1Ilju} · ${p1Animal}) × ${p2.name} (${p2Ilju} · ${p2Animal})</td></tr>
     <tr><th>종합 시너지 점수</th><td><strong>${totalScore}점</strong> (천간 교감 ${ganRes.score}점 · 일지 호흡 ${jiRes.score}점 · 오행 보완 ${ohRes.score}점)</td></tr>
@@ -2034,6 +2519,12 @@ function runCompatAnalysis(shouldScroll = true) {
     <tr><th>핵심 시너지 요약</th><td>${ganRes.label} + ${jiRes.label} 구조로, 서로의 부족한 오행을 자연스럽게 채워주는 건설적인 파트너십입니다.</td></tr>
   `;
 
+  LAST_COMPAT_REPORT = {
+    p1, p2, p1Ilju, p2Ilju, p1Animal, p2Animal,
+    totalScore, compatHeadlineStr, compatSubSummaryStr,
+    ganRes, jiRes, ohRes, c1, c2, compareRows, compatDetails, compatSummaryRows
+  };
+
   document.getElementById("compat-report-area").style.display = "block";
   if (shouldScroll) {
     document.getElementById("compat-report-area").scrollIntoView({ behavior: "smooth" });
@@ -2041,98 +2532,851 @@ function runCompatAnalysis(shouldScroll = true) {
 }
 
 // ============================================================================
-// [G] 순수 자바스크립트 내장 고해상도 DOM -> Canvas -> PDF 1.4 바이너리 & PNG 생성 엔진
-//     (외부 CDN 차단 및 iframe 샌드박스 인쇄 제한 완벽 해결)
+// [G] 100% 무오류 순수 Canvas 2D 네이티브 PDF 1.4 및 PNG 렌더러
+//     - 사전 높이 계산(Pre-flight Measurement)으로 블록·표 행 중간 절단 차단
+//     - '심층 기질 및 운세 종합 리포트 (10대 핵심 영역)'부터 무조건 새 페이지 시작
 // ============================================================================
-function getExportFileName(captureId, ext) {
-  if (captureId === "single-capture") {
-    const uName = (document.getElementById("userName").value.trim() || "사용자").replace(/\s+/g, "_");
-    return `사주&컬러코드_${uName}_리포트.${ext}`;
+function getExportFileName(mode, ext) {
+  if (mode === "single") {
+    const rawName = (document.getElementById("userName").value.trim() || "사용자").replace(/[\\/:*?"<>|]/g, "");
+    return `사주컬러코드_분석리포트_${rawName}.${ext}`;
+  } else {
+    const n1 = (document.getElementById("p1Name").value.trim() || "나").replace(/[\\/:*?"<>|]/g, "");
+    const n2 = (document.getElementById("p2Name").value.trim() || "상대방").replace(/[\\/:*?"<>|]/g, "");
+    return `사주컬러코드_궁합리포트_${n1}_${n2}.${ext}`;
   }
-  const n1 = (document.getElementById("p1Name").value.trim() || "나").replace(/\s+/g, "_");
-  const n2 = (document.getElementById("p2Name").value.trim() || "상대방").replace(/\s+/g, "_");
-  return `사주&컬러코드_궁합_${n1}_${n2}_리포트.${ext}`;
 }
 
-// DOM 요소를 SVG foreignObject로 직렬화하여 고배율 Canvas로 변환
-async function renderElementToCanvas(captureId) {
-  const sourceEl = document.getElementById(captureId);
-  const clone = sourceEl.cloneNode(true);
-  clone.style.width = "820px";
-  clone.style.padding = "20px";
-  clone.style.background = "#ffffff";
-  clone.style.margin = "0";
+// 한글·영문·숫자 안전한 폭 측정 기반 줄바꿈 유틸리티
+function wrapCanvasLines(ctx, text, maxWidth) {
+  if (!text) return [""];
+  const paragraphs = String(text).split(/\r?\n/);
+  const result = [];
 
-  // 인라인 스타일 강제 적용 (SVG foreignObject 렌더링 정확도 보장)
-  const styleBlock = document.createElement("style");
-  let allCss = "";
-  for (const sheet of document.styleSheets) {
-    try {
-      for (const rule of sheet.cssRules) {
-        allCss += rule.cssText + "\n";
+  for (const para of paragraphs) {
+    if (para.trim() === "") {
+      result.push("");
+      continue;
+    }
+    let currentLine = "";
+    for (let i = 0; i < para.length; i++) {
+      const ch = para[i];
+      const testLine = currentLine + ch;
+      if (ctx.measureText(testLine).width > maxWidth && currentLine.length > 0) {
+        result.push(currentLine);
+        currentLine = ch === " " ? "" : ch;
+      } else {
+        currentLine = testLine;
       }
-    } catch (e) {}
+    }
+    if (currentLine.length > 0) {
+      result.push(currentLine);
+    }
   }
-  styleBlock.textContent = allCss + `
-    * { box-sizing: border-box; }
-    body { margin: 0; padding: 0; background: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Malgun Gothic", sans-serif; }
-    .card { box-shadow: none !important; border: 1px solid #cbd5e1 !important; background: #ffffff !important; }
-    .daeun-scroll, .table-wrap { overflow: visible !important; }
-  `;
-
-  // 정확한 높이 측정을 위해 화면 밖 임시 호스트에 잠깐 부착
-  const measureHost = document.createElement("div");
-  measureHost.style.position = "fixed";
-  measureHost.style.left = "-9999px";
-  measureHost.style.top = "0";
-  measureHost.style.width = "820px";
-  measureHost.style.background = "#ffffff";
-  measureHost.appendChild(clone);
-  document.body.appendChild(measureHost);
-
-  const width = 820;
-  const height = Math.ceil(clone.scrollHeight) + 24;
-  document.body.removeChild(measureHost);
-
-  const wrapper = document.createElement("div");
-  wrapper.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
-  wrapper.style.width = width + "px";
-  wrapper.style.height = height + "px";
-  wrapper.style.background = "#ffffff";
-  wrapper.appendChild(styleBlock);
-  wrapper.appendChild(clone);
-
-  const serializedHTML = new XMLSerializer().serializeToString(wrapper);
-  const svgStr = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-      <foreignObject width="100%" height="100%">
-        ${serializedHTML}
-      </foreignObject>
-    </svg>
-  `;
-
-  const svgDataUrl = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgStr);
-
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      const scale = 1.8;
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.floor(width * scale);
-      canvas.height = Math.floor(height * scale);
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.scale(scale, scale);
-      ctx.drawImage(img, 0, 0);
-      resolve(canvas);
-    };
-    img.onerror = (err) => reject(err);
-    img.src = svgDataUrl;
-  });
+  return result.length > 0 ? result : [""];
 }
 
-// 여러 페이지(A4 비율)로 분할된 JPEG 배열로부터 순수 PDF 1.4 바이너리 Uint8Array 생성
+function drawRoundedRect(ctx, x, y, w, h, r, fillStyle, strokeStyle, lineWidth = 1.5) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+  if (fillStyle) {
+    ctx.fillStyle = fillStyle;
+    ctx.fill();
+  }
+  if (strokeStyle) {
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = strokeStyle;
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// 다중 A4 페이지 캔버스 매니저 (블록 단위 넘김 및 페이지 번호 푸터 자동 삽입)
+function createPaginatedCanvasManager() {
+  const PAGE_W = 1240;
+  const PAGE_H = 1754; // A4 비율 (1 : 1.4145)
+  const MARGIN_X = 64;
+  const MARGIN_TOP = 64;
+  const MARGIN_BOTTOM = 76;
+  const CONTENT_W = PAGE_W - MARGIN_X * 2;
+  const FONT_FAMILY = '-apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
+
+  const pages = [];
+  let ctx = null;
+  let y = MARGIN_TOP;
+
+  function addNewPage(isFirst = false) {
+    const canvas = document.createElement("canvas");
+    canvas.width = PAGE_W;
+    canvas.height = PAGE_H;
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, PAGE_W, PAGE_H);
+    pages.push(canvas);
+    y = MARGIN_TOP;
+
+    if (!isFirst) {
+      ctx.font = `600 18px ${FONT_FAMILY}`;
+      ctx.fillStyle = "#64748b";
+      ctx.fillText("사주&컬러코드 (SAJU & COLOR CODE) · 심층 분석 리포트", MARGIN_X, y);
+      y += 14;
+      ctx.strokeStyle = "#e2e8f0";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(MARGIN_X, y);
+      ctx.lineTo(PAGE_W - MARGIN_X, y);
+      ctx.stroke();
+      y += 28;
+    }
+  }
+
+  function ensureSpace(neededHeight) {
+    if (y + neededHeight > PAGE_H - MARGIN_BOTTOM) {
+      addNewPage(false);
+    }
+  }
+
+  function forcePageBreak() {
+    if (y > MARGIN_TOP + 40) {
+      addNewPage(false);
+    }
+  }
+
+  function finalizeFooters() {
+    const total = pages.length;
+    pages.forEach((canvas, idx) => {
+      const pCtx = canvas.getContext("2d");
+      pCtx.save();
+      pCtx.strokeStyle = "#e2e8f0";
+      pCtx.lineWidth = 1.5;
+      pCtx.beginPath();
+      pCtx.moveTo(MARGIN_X, PAGE_H - 54);
+      pCtx.lineTo(PAGE_W - MARGIN_X, PAGE_H - 54);
+      pCtx.stroke();
+
+      pCtx.font = `600 18px ${FONT_FAMILY}`;
+      pCtx.fillStyle = "#64748b";
+      pCtx.textAlign = "left";
+      pCtx.fillText("사주&컬러코드 (SAJU & COLOR CODE) · 정통 만세력 & 기질 컬러 리포트", MARGIN_X, PAGE_H - 26);
+
+      pCtx.textAlign = "right";
+      pCtx.fillText(`Page ${idx + 1} / ${total}`, PAGE_W - MARGIN_X, PAGE_H - 26);
+      pCtx.restore();
+    });
+  }
+
+  addNewPage(true);
+
+  return {
+    PAGE_W, PAGE_H, MARGIN_X, CONTENT_W, FONT_FAMILY,
+    getCtx: () => ctx,
+    getY: () => y,
+    setY: (val) => { y = val; },
+    addY: (delta) => { y += delta; },
+    ensureSpace,
+    forcePageBreak,
+    finalizeFooters,
+    getPages: () => pages
+  };
+}
+
+// 개인 사주 리포트 A4 다중 페이지 캔버스 렌더링
+function renderSingleReportPages(r) {
+  const pm = createPaginatedCanvasManager();
+  const { MARGIN_X, CONTENT_W, FONT_FAMILY } = pm;
+  const ohColorHex = { "목": "#2e8b57", "화": "#e05252", "토": "#d99b26", "금": "#64748b", "수": "#2563eb" };
+
+  // 1. 상단 브랜드 타이틀 배너
+  {
+    const ctx = pm.getCtx();
+    ctx.font = `800 36px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#0f172a";
+    ctx.fillText("사주&컬러코드 심층 분석 리포트", MARGIN_X, pm.getY() + 28);
+
+    ctx.font = `600 20px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#64748b";
+    ctx.fillText("정통 만세력 4기둥 & 나만의 기질 컬러 · 운세 설계서", MARGIN_X, pm.getY() + 62);
+    pm.addY(84);
+  }
+
+  // 2. 종합 요약 & 본질/개운 컬러 카드
+  {
+    const ctx = pm.getCtx();
+    ctx.font = `500 21px ${FONT_FAMILY}`;
+    const summaryLines = wrapCanvasLines(ctx, r.overallSummaryStr, CONTENT_W - 48);
+    const cardH = 260 + summaryLines.length * 31;
+    pm.ensureSpace(cardH);
+
+    const startY = pm.getY();
+    drawRoundedRect(ctx, MARGIN_X, startY, CONTENT_W, cardH, 18, "#ffffff", "#cbd5e1", 2);
+
+    // 배지
+    drawRoundedRect(ctx, MARGIN_X + 24, startY + 22, 340, 34, 17, "#eff6ff", "#bfdbfe", 1);
+    ctx.font = `700 18px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#1d4ed8";
+    ctx.fillText(`60갑자 물상: ${r.animalSymbol} (${r.iljuName})`, MARGIN_X + 38, startY + 45);
+
+    // 타이틀 & 메타
+    ctx.font = `800 28px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#0f172a";
+    ctx.fillText(`${r.name}님은 "${r.tempColor.persona}, ${r.iljuName}"입니다.`, MARGIN_X + 24, startY + 94);
+
+    ctx.font = `500 19px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#64748b";
+    ctx.fillText(r.metaInfoStr, MARGIN_X + 24, startY + 126);
+
+    // 요약 본문
+    ctx.font = `500 21px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#1e293b";
+    let ty = startY + 164;
+    summaryLines.forEach(line => {
+      ctx.fillText(line, MARGIN_X + 24, ty);
+      ty += 31;
+    });
+
+    // 컬러 2박스
+    const boxY = ty + 8;
+    const boxW = (CONTENT_W - 64) / 2;
+    const boxH = 104;
+
+    // 좌측 본질 컬러
+    drawRoundedRect(ctx, MARGIN_X + 24, boxY, boxW, boxH, 14, "#f8fafc", "#e2e8f0", 1.5);
+    drawRoundedRect(ctx, MARGIN_X + 40, boxY + 18, 68, 68, 12, r.tempColor.hex, "#cbd5e1", 1.5);
+    ctx.font = `600 17px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#64748b";
+    ctx.fillText("타고난 본질 컬러 (일간 기준)", MARGIN_X + 124, boxY + 36);
+    ctx.font = `800 23px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#0f172a";
+    ctx.fillText(r.tempColor.name, MARGIN_X + 124, boxY + 66);
+    ctx.font = `500 17px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#475569";
+    ctx.fillText(r.tempColor.keyword, MARGIN_X + 124, boxY + 91);
+
+    // 우측 개운 컬러
+    const rightX = MARGIN_X + 24 + boxW + 16;
+    drawRoundedRect(ctx, rightX, boxY, boxW, boxH, 14, "#f8fafc", "#e2e8f0", 1.5);
+    drawRoundedRect(ctx, rightX + 16, boxY + 18, 68, 68, 12, r.balColor.hex, "#cbd5e1", 1.5);
+    ctx.font = `600 17px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#64748b";
+    ctx.fillText(`에너지 보완 개운 컬러 (${r.weakestOhaeng} 보충)`, rightX + 100, boxY + 36);
+    ctx.font = `800 23px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#0f172a";
+    ctx.fillText(r.balColor.name, rightX + 100, boxY + 66);
+    ctx.font = `500 17px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#475569";
+    const balShort = wrapCanvasLines(ctx, r.balColor.desc, boxW - 116)[0];
+    ctx.fillText(balShort, rightX + 100, boxY + 91);
+
+    pm.addY(cardH + 20);
+  }
+
+  // 3. 컬러 라이프스타일 & 오감 테라피 가이드 (사전 높이 측정)
+  {
+    const ctx = pm.getCtx();
+    ctx.font = `500 19px ${FONT_FAMILY}`;
+    const items = [
+      {
+        title: `본질 컬러 라이프스타일 (${r.tempColor.name})`,
+        hex: r.tempColor.hex,
+        lines: [
+          ...wrapCanvasLines(ctx, `• 패션: ${r.tempColor.fashion}`, CONTENT_W - 56),
+          ...wrapCanvasLines(ctx, `• 공간: ${r.tempColor.interior}`, CONTENT_W - 56),
+          ...wrapCanvasLines(ctx, `• 아로마: ${r.tempColor.aroma}`, CONTENT_W - 56)
+        ]
+      },
+      {
+        title: `개운 컬러 에너지 충전 (${r.balColor.name})`,
+        hex: r.balColor.hex,
+        lines: [
+          ...wrapCanvasLines(ctx, `• 패션: ${r.balColor.fashion}`, CONTENT_W - 56),
+          ...wrapCanvasLines(ctx, `• 공간: ${r.balColor.interior}`, CONTENT_W - 56),
+          ...wrapCanvasLines(ctx, `• 아로마: ${r.balColor.aroma}`, CONTENT_W - 56)
+        ]
+      }
+    ];
+
+    items.forEach(box => {
+      const boxH = 66 + box.lines.length * 27;
+      pm.ensureSpace(boxH + 14);
+      const c = pm.getCtx();
+      const sy = pm.getY();
+      drawRoundedRect(c, MARGIN_X, sy, CONTENT_W, boxH, 16, "#ffffff", "#cbd5e1", 1.8);
+      drawRoundedRect(c, MARGIN_X + 22, sy + 20, 20, 20, 10, box.hex, "#94a3b8", 1);
+      c.font = `800 21px ${FONT_FAMILY}`;
+      c.fillStyle = "#0f172a";
+      c.fillText(box.title, MARGIN_X + 52, sy + 37);
+
+      c.font = `500 19px ${FONT_FAMILY}`;
+      c.fillStyle = "#334155";
+      let ly = sy + 68;
+      box.lines.forEach(l => {
+        c.fillText(l, MARGIN_X + 24, ly);
+        ly += 27;
+      });
+      pm.addY(boxH + 14);
+    });
+    pm.addY(6);
+  }
+
+  // 4. 사주명식 4기둥 표
+  {
+    const cardH = 318;
+    pm.ensureSpace(cardH + 20);
+    const c = pm.getCtx();
+    const sy = pm.getY();
+    drawRoundedRect(c, MARGIN_X, sy, CONTENT_W, cardH, 18, "#ffffff", "#cbd5e1", 2);
+
+    c.font = `800 22px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText("사주명식 (四柱命式 · 4개의 기둥)", MARGIN_X + 24, sy + 42);
+
+    const tableX = MARGIN_X + 24;
+    const tableY = sy + 60;
+    const tableW = CONTENT_W - 48;
+    const colW = tableW / 5;
+    const rowHeights = [40, 38, 62, 62, 36];
+    const headers = ["구분", "시주 (말년)", "일주 (나)", "월주 (청년)", "년주 (초년)"];
+    const keys = ["hour", "day", "month", "year"];
+
+    let curY = tableY;
+    // 헤더
+    drawRoundedRect(c, tableX, curY, tableW, rowHeights[0], 6, "#f1f5f9", "#cbd5e1", 1.2);
+    c.font = `700 18px ${FONT_FAMILY}`;
+    c.fillStyle = "#475569";
+    c.textAlign = "center";
+    headers.forEach((h, idx) => {
+      c.fillText(h, tableX + colW * idx + colW / 2, curY + 26);
+    });
+    curY += rowHeights[0];
+
+    const rowLabels = ["천간 십성", "천간 (天干)", "지지 (地支)", "지지 십성", "12운성"];
+    for (let rIdx = 0; rIdx < 5; rIdx++) {
+      const rh = rowHeights[rIdx];
+      c.strokeStyle = "#e2e8f0";
+      c.lineWidth = 1.2;
+      c.strokeRect(tableX, curY, tableW, rh);
+
+      c.font = `700 18px ${FONT_FAMILY}`;
+      c.fillStyle = "#0f172a";
+      c.fillText(rowLabels[rIdx], tableX + colW / 2, curY + rh / 2 + 6);
+
+      keys.forEach((k, kIdx) => {
+        const cx = tableX + colW * (kIdx + 1) + colW / 2;
+        c.strokeRect(tableX + colW * (kIdx + 1), curY, colW, rh);
+        const p = r.pillars[k];
+        if (!p) {
+          c.font = `500 17px ${FONT_FAMILY}`;
+          c.fillStyle = "#94a3b8";
+          c.fillText("시간 미상", cx, curY + rh / 2 + 6);
+          return;
+        }
+        const gOh = GAN_OHAENG[p.ganIdx];
+        const jOh = JI_OHAENG[p.jiIdx];
+        if (rIdx === 0) {
+          const gSip = k === "day" ? "본원(일간)" : getSipseong(r.dayGanIdx, p.ganIdx);
+          c.font = `700 17px ${FONT_FAMILY}`;
+          c.fillStyle = "#334155";
+          c.fillText(gSip, cx, curY + 25);
+        } else if (rIdx === 1) {
+          c.font = `800 30px ${FONT_FAMILY}`;
+          c.fillStyle = ohColorHex[gOh];
+          c.fillText(`${CHEONGAN_HANJA[p.ganIdx]} (${CHEONGAN[p.ganIdx]}·${gOh})`, cx, curY + 41);
+        } else if (rIdx === 2) {
+          c.font = `800 30px ${FONT_FAMILY}`;
+          c.fillStyle = ohColorHex[jOh];
+          c.fillText(`${JIJI_HANJA[p.jiIdx]} (${JIJI[p.jiIdx]}·${jOh})`, cx, curY + 41);
+        } else if (rIdx === 3) {
+          const jSip = getSipseong(r.dayGanIdx, JI_MAIN_GAN[p.jiIdx]);
+          c.font = `700 17px ${FONT_FAMILY}`;
+          c.fillStyle = "#334155";
+          c.fillText(jSip, cx, curY + 24);
+        } else if (rIdx === 4) {
+          const uns = get12Unseong(r.dayGanIdx, p.jiIdx);
+          c.font = `700 17px ${FONT_FAMILY}`;
+          c.fillStyle = "#0f172a";
+          c.fillText(uns, cx, curY + 24);
+        }
+      });
+      curY += rh;
+    }
+    c.textAlign = "left";
+    pm.addY(cardH + 20);
+  }
+
+  // 5. 10년 대운 및 2026·2027 세운 분석 카드
+  {
+    const ctx = pm.getCtx();
+    ctx.font = `500 18px ${FONT_FAMILY}`;
+    const s26Lines = [
+      ...wrapCanvasLines(ctx, `• 핵심 테마: ${r.s26.theme} (${r.curDaeunStr} 결합)`, CONTENT_W - 84),
+      ...wrapCanvasLines(ctx, `• 전반적 흐름: ${r.s26.flow}`, CONTENT_W - 84),
+      ...wrapCanvasLines(ctx, `• 재물·커리어: ${r.s26.action}`, CONTENT_W - 84),
+      ...wrapCanvasLines(ctx, `• 주의 변수: ${r.s26.caution}`, CONTENT_W - 84)
+    ];
+    const s27Lines = [
+      ...wrapCanvasLines(ctx, `• 핵심 테마: ${r.s27.theme}`, CONTENT_W - 84),
+      ...wrapCanvasLines(ctx, `• 전반적 흐름: ${r.s27.flow}`, CONTENT_W - 84),
+      ...wrapCanvasLines(ctx, `• 재물·커리어: ${r.s27.action}`, CONTENT_W - 84),
+      ...wrapCanvasLines(ctx, `• 주의 변수: ${r.s27.caution}`, CONTENT_W - 84)
+    ];
+    const s26H = 56 + s26Lines.length * 26;
+    const s27H = 56 + s27Lines.length * 26;
+    const totalH = 195 + s26H + s27H + 28;
+
+    pm.ensureSpace(totalH + 20);
+    const c = pm.getCtx();
+    const sy = pm.getY();
+    drawRoundedRect(c, MARGIN_X, sy, CONTENT_W, totalH, 18, "#ffffff", "#cbd5e1", 2);
+
+    c.font = `800 22px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText("10년 대운(大運) 및 2026 병오년 · 2027 정미년 세운 분석", MARGIN_X + 24, sy + 42);
+
+    c.font = `700 18px ${FONT_FAMILY}`;
+    c.fillStyle = "#2563eb";
+    c.textAlign = "right";
+    c.fillText(r.daeunDirStr, MARGIN_X + CONTENT_W - 24, sy + 42);
+    c.textAlign = "left";
+
+    // 대운 8칸
+    const cellGap = 8;
+    const cellW = (CONTENT_W - 48 - cellGap * 7) / 8;
+    const cellY = sy + 60;
+    const cellH = 112;
+    r.daeunList.forEach((d, idx) => {
+      const cx = MARGIN_X + 24 + idx * (cellW + cellGap);
+      const nextAge = idx < r.daeunList.length - 1 ? r.daeunList[idx + 1].age : d.age + 10;
+      const isCur = r.currentKoreanAge >= d.age && r.currentKoreanAge < nextAge;
+      drawRoundedRect(c, cx, cellY, cellW, cellH, 10, isCur ? "#eff6ff" : "#f8fafc", isCur ? "#2563eb" : "#e2e8f0", isCur ? 2 : 1.2);
+
+      c.textAlign = "center";
+      c.font = `700 15px ${FONT_FAMILY}`;
+      c.fillStyle = isCur ? "#1d4ed8" : "#475569";
+      c.fillText(`${d.age}세${isCur ? "(현)" : ""}`, cx + cellW / 2, cellY + 24);
+
+      c.font = `800 22px ${FONT_FAMILY}`;
+      c.fillStyle = "#0f172a";
+      c.fillText(`${CHEONGAN_HANJA[d.ganIdx]}${JIJI_HANJA[d.jiIdx]}`, cx + cellW / 2, cellY + 54);
+
+      c.font = `600 15px ${FONT_FAMILY}`;
+      c.fillStyle = "#334155";
+      c.fillText(`${CHEONGAN[d.ganIdx]}${JIJI[d.jiIdx]}`, cx + cellW / 2, cellY + 76);
+
+      const gSip = getSipseong(r.dayGanIdx, d.ganIdx);
+      const jSip = getSipseong(r.dayGanIdx, JI_MAIN_GAN[d.jiIdx]);
+      c.font = `500 14px ${FONT_FAMILY}`;
+      c.fillStyle = "#64748b";
+      c.fillText(`${gSip}·${jSip}`, cx + cellW / 2, cellY + 98);
+    });
+    c.textAlign = "left";
+
+    // 2026 세운 박스
+    let boxY = cellY + cellH + 16;
+    drawRoundedRect(c, MARGIN_X + 24, boxY, CONTENT_W - 48, s26H, 14, "#fffbeb", "#fde68a", 1.5);
+    c.font = `800 20px ${FONT_FAMILY}`;
+    c.fillStyle = "#451a03";
+    c.fillText(`2026년 병오년 (丙午年 · 붉은 말) — [${r.seun2026GanSip} · ${r.seun2026JiSip}운]`, MARGIN_X + 42, boxY + 34);
+    c.font = `500 18px ${FONT_FAMILY}`;
+    let ly = boxY + 62;
+    s26Lines.forEach(l => { c.fillText(l, MARGIN_X + 42, ly); ly += 26; });
+
+    // 2027 세운 박스
+    boxY += s26H + 12;
+    drawRoundedRect(c, MARGIN_X + 24, boxY, CONTENT_W - 48, s27H, 14, "#fef2f2", "#fecaca", 1.5);
+    c.font = `800 20px ${FONT_FAMILY}`;
+    c.fillStyle = "#450a0a";
+    c.fillText(`2027년 정미년 (丁未年 · 붉은 양) — [${r.seun2027GanSip} · ${r.seun2027JiSip}운]`, MARGIN_X + 42, boxY + 34);
+    c.font = `500 18px ${FONT_FAMILY}`;
+    ly = boxY + 62;
+    s27Lines.forEach(l => { c.fillText(l, MARGIN_X + 42, ly); ly += 26; });
+
+    pm.addY(totalH + 20);
+  }
+
+  // 6. 오행 분포 그래프 카드
+  {
+    const ctx = pm.getCtx();
+    ctx.font = `500 19px ${FONT_FAMILY}`;
+    const sumLines = wrapCanvasLines(ctx, r.ohaengSummaryPlain, CONTENT_W - 76);
+    const sumBoxH = 26 + sumLines.length * 27;
+    const cardH = 255 + sumBoxH;
+
+    pm.ensureSpace(cardH + 20);
+    const c = pm.getCtx();
+    const sy = pm.getY();
+    drawRoundedRect(c, MARGIN_X, sy, CONTENT_W, cardH, 18, "#ffffff", "#cbd5e1", 2);
+
+    c.font = `800 22px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText("오행(五行) 에너지 분포 및 과다·부족 분석", MARGIN_X + 24, sy + 42);
+
+    let barY = sy + 68;
+    r.ohaengMeta.forEach(item => {
+      const pct = r.ratios[item.key] || 0;
+      c.font = `700 19px ${FONT_FAMILY}`;
+      c.fillStyle = item.hex;
+      c.fillText(item.label, MARGIN_X + 24, barY + 17);
+
+      const trackX = MARGIN_X + 120;
+      const trackW = CONTENT_W - 220;
+      drawRoundedRect(c, trackX, barY + 2, trackW, 18, 9, "#f1f5f9", null);
+      const fillW = Math.max(8, Math.round((pct / 100) * trackW));
+      if (pct > 0) {
+        drawRoundedRect(c, trackX, barY + 2, fillW, 18, 9, item.hex, null);
+      }
+
+      c.font = `700 19px ${FONT_FAMILY}`;
+      c.fillStyle = "#0f172a";
+      c.textAlign = "right";
+      c.fillText(`${pct}%`, MARGIN_X + CONTENT_W - 24, barY + 17);
+      c.textAlign = "left";
+      barY += 34;
+    });
+
+    drawRoundedRect(c, MARGIN_X + 24, barY + 6, CONTENT_W - 48, sumBoxH, 12, "#f8fafc", "#cbd5e1", 1.2);
+    c.fillStyle = "#0f172a";
+    c.fillRect(MARGIN_X + 24, barY + 6, 6, sumBoxH);
+
+    c.font = `500 19px ${FONT_FAMILY}`;
+    c.fillStyle = "#334155";
+    let ty = barY + 32;
+    sumLines.forEach(l => { c.fillText(l, MARGIN_X + 44, ty); ty += 27; });
+
+    pm.addY(cardH + 20);
+  }
+
+  // ==========================================================================
+  // [필수 요구사항] '심층 기질 및 운세 종합 리포트 (10대 핵심 영역)'부터 무조건 새 페이지 시작
+  // ==========================================================================
+  pm.forcePageBreak();
+
+  {
+    const c = pm.getCtx();
+    c.font = `800 26px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText("심층 기질 및 운세 종합 리포트 (10대 핵심 영역)", MARGIN_X, pm.getY() + 24);
+    pm.addY(44);
+  }
+
+  // 10대 상세 분석 카드 각각 사전 높이 측정 후 블록 단위 배치 (절대 중간 절단 없음)
+  r.details.forEach(d => {
+    const tmpCtx = pm.getCtx();
+    tmpCtx.font = `500 20px ${FONT_FAMILY}`;
+    const bodyLines = wrapCanvasLines(tmpCtx, d.content, CONTENT_W - 48);
+    const itemH = 68 + bodyLines.length * 30;
+
+    pm.ensureSpace(itemH + 14);
+    const c = pm.getCtx();
+    const sy = pm.getY();
+
+    drawRoundedRect(c, MARGIN_X, sy, CONTENT_W, itemH, 16, "#ffffff", "#cbd5e1", 1.8);
+    c.font = `800 21px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText(d.title, MARGIN_X + 24, sy + 36);
+
+    c.font = `500 20px ${FONT_FAMILY}`;
+    c.fillStyle = "#334155";
+    let ty = sy + 68;
+    bodyLines.forEach(line => {
+      c.fillText(line, MARGIN_X + 24, ty);
+      ty += 30;
+    });
+
+    pm.addY(itemH + 14);
+  });
+
+  // 8. 최종 종합 정리 (One-Page Summary) 표 — 각 행(Row) 단위 사전 높이 측정 및 페이지 넘김 보호
+  {
+    const tmpCtx = pm.getCtx();
+    tmpCtx.font = `500 20px ${FONT_FAMILY}`;
+    const leadLines = wrapCanvasLines(tmpCtx, r.finalSummaryLeadStr, CONTENT_W - 48);
+    const headerBlockH = 74 + leadLines.length * 29;
+
+    pm.ensureSpace(headerBlockH + 90);
+    const c = pm.getCtx();
+    const sy = pm.getY();
+    c.font = `800 24px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText(`최종 종합 정리 (One-Page Summary · ${r.name}님 마스터 시트)`, MARGIN_X, sy + 28);
+
+    c.font = `500 20px ${FONT_FAMILY}`;
+    c.fillStyle = "#1e293b";
+    let ly = sy + 64;
+    leadLines.forEach(l => { c.fillText(l, MARGIN_X, ly); ly += 29; });
+    pm.setY(ly + 10);
+
+    const keyColW = 240;
+    const valColW = CONTENT_W - keyColW;
+
+    r.summaryRows.forEach(row => {
+      const mCtx = pm.getCtx();
+      mCtx.font = `500 19px ${FONT_FAMILY}`;
+      const valLines = wrapCanvasLines(mCtx, row.val, valColW - 32);
+      const rowH = Math.max(52, 26 + valLines.length * 27);
+
+      pm.ensureSpace(rowH);
+      const rc = pm.getCtx();
+      const ry = pm.getY();
+
+      rc.fillStyle = "#f1f5f9";
+      rc.fillRect(MARGIN_X, ry, keyColW, rowH);
+      rc.fillStyle = "#ffffff";
+      rc.fillRect(MARGIN_X + keyColW, ry, valColW, rowH);
+
+      rc.strokeStyle = "#cbd5e1";
+      rc.lineWidth = 1.5;
+      rc.strokeRect(MARGIN_X, ry, keyColW, rowH);
+      rc.strokeRect(MARGIN_X + keyColW, ry, valColW, rowH);
+
+      rc.font = `700 19px ${FONT_FAMILY}`;
+      rc.fillStyle = "#0f172a";
+      rc.fillText(row.key, MARGIN_X + 16, ry + 33);
+
+      rc.font = `500 19px ${FONT_FAMILY}`;
+      rc.fillStyle = "#334155";
+      let vy = ry + 32;
+      valLines.forEach(vl => {
+        rc.fillText(vl, MARGIN_X + keyColW + 16, vy);
+        vy += 27;
+      });
+
+      pm.addY(rowH);
+    });
+  }
+
+  pm.finalizeFooters();
+  return pm.getPages();
+}
+
+// 두 사람 궁합 리포트 A4 다중 페이지 캔버스 렌더링
+function renderCompatReportPages(r) {
+  const pm = createPaginatedCanvasManager();
+  const { MARGIN_X, CONTENT_W, FONT_FAMILY } = pm;
+
+  // 1. 헤더
+  {
+    const ctx = pm.getCtx();
+    ctx.font = `800 36px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#0f172a";
+    ctx.fillText("사주&컬러코드 두 사람 궁합 & 시너지 리포트", MARGIN_X, pm.getY() + 28);
+    pm.addY(56);
+  }
+
+  // 2. 종합 점수 및 3대 지표 & 컬러 카드
+  {
+    const ctx = pm.getCtx();
+    ctx.font = `500 20px ${FONT_FAMILY}`;
+    const subLines = wrapCanvasLines(ctx, r.compatSubSummaryStr, CONTENT_W - 180);
+    const cardH = 340 + subLines.length * 29;
+    pm.ensureSpace(cardH);
+
+    const sy = pm.getY();
+    drawRoundedRect(ctx, MARGIN_X, sy, CONTENT_W, cardH, 18, "#ffffff", "#cbd5e1", 2);
+
+    // 히어로 박스
+    const heroH = 120 + subLines.length * 29;
+    drawRoundedRect(ctx, MARGIN_X + 24, sy + 22, CONTENT_W - 48, heroH, 14, "#eff6ff", "#bfdbfe", 1.5);
+    ctx.font = `700 18px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#1d4ed8";
+    ctx.fillText(`${r.p1.name}(${r.p1Ilju}) × ${r.p2.name}(${r.p2Ilju})`, MARGIN_X + 42, sy + 52);
+
+    ctx.font = `800 26px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#0f172a";
+    ctx.fillText(r.compatHeadlineStr, MARGIN_X + 42, sy + 88);
+
+    ctx.font = `500 20px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#334155";
+    let ty = sy + 122;
+    subLines.forEach(l => { ctx.fillText(l, MARGIN_X + 42, ty); ty += 29; });
+
+    // 점수 원
+    const circleX = MARGIN_X + CONTENT_W - 96;
+    const circleY = sy + 22 + heroH / 2;
+    ctx.beginPath();
+    ctx.arc(circleX, circleY, 52, 0, Math.PI * 2);
+    ctx.fillStyle = "#0f172a";
+    ctx.fill();
+    ctx.textAlign = "center";
+    ctx.font = `800 28px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(`${r.totalCompatScore || r.totalScore}점`, circleX, circleY + 6);
+    ctx.font = `600 14px ${FONT_FAMILY}`;
+    ctx.fillText("종합 시너지", circleX, circleY + 28);
+    ctx.textAlign = "left";
+
+    // 3대 서브 점수
+    const subY = sy + 22 + heroH + 16;
+    const subW = (CONTENT_W - 48 - 24) / 3;
+    const subItems = [
+      { title: "1. 일간 천간합 (가치관)", val: `${r.ganRes.score}점`, lbl: r.ganRes.label },
+      { title: "2. 일지 지지합 (현실호흡)", val: `${r.jiRes.score}점`, lbl: r.jiRes.label },
+      { title: "3. 오행 상호 보완", val: `${r.ohRes.score}점`, lbl: r.ohRes.label }
+    ];
+    subItems.forEach((it, i) => {
+      const sx = MARGIN_X + 24 + i * (subW + 12);
+      drawRoundedRect(ctx, sx, subY, subW, 96, 12, "#f8fafc", "#e2e8f0", 1.2);
+      ctx.textAlign = "center";
+      ctx.font = `600 16px ${FONT_FAMILY}`;
+      ctx.fillStyle = "#64748b";
+      ctx.fillText(it.title, sx + subW / 2, subY + 28);
+      ctx.font = `800 24px ${FONT_FAMILY}`;
+      ctx.fillStyle = "#0f172a";
+      ctx.fillText(it.val, sx + subW / 2, subY + 58);
+      ctx.font = `600 15px ${FONT_FAMILY}`;
+      ctx.fillStyle = "#2563eb";
+      ctx.fillText(it.lbl, sx + subW / 2, subY + 82);
+    });
+    ctx.textAlign = "left";
+
+    // 두 사람 컬러 비교
+    const colY = subY + 112;
+    const colW = (CONTENT_W - 64) / 2;
+    [
+      { x: MARGIN_X + 24, name: r.p1.name, c: r.c1, weak: r.p1.weakestOhaeng },
+      { x: MARGIN_X + 24 + colW + 16, name: r.p2.name, c: r.c2, weak: r.p2.weakestOhaeng }
+    ].forEach(p => {
+      drawRoundedRect(ctx, p.x, colY, colW, 96, 12, "#f8fafc", "#e2e8f0", 1.2);
+      drawRoundedRect(ctx, p.x + 14, colY + 14, 68, 68, 12, p.c.hex, "#cbd5e1", 1.2);
+      ctx.font = `600 16px ${FONT_FAMILY}`;
+      ctx.fillStyle = "#64748b";
+      ctx.fillText(`${p.name}님의 본질 컬러`, p.x + 96, colY + 32);
+      ctx.font = `800 21px ${FONT_FAMILY}`;
+      ctx.fillStyle = "#0f172a";
+      ctx.fillText(p.c.name, p.x + 96, colY + 60);
+      ctx.font = `500 16px ${FONT_FAMILY}`;
+      ctx.fillStyle = "#475569";
+      ctx.fillText(`${p.c.keyword} (부족: ${p.weak})`, p.x + 96, colY + 84);
+    });
+
+    pm.addY(cardH + 20);
+  }
+
+  // 3. 사주명식 핵심 대조표
+  {
+    const cardH = 330;
+    pm.ensureSpace(cardH + 20);
+    const c = pm.getCtx();
+    const sy = pm.getY();
+    drawRoundedRect(c, MARGIN_X, sy, CONTENT_W, cardH, 18, "#ffffff", "#cbd5e1", 2);
+    c.font = `800 22px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText("두 사람 사주명식 핵심 대조", MARGIN_X + 24, sy + 42);
+
+    const tx = MARGIN_X + 24;
+    let ty = sy + 60;
+    const tw = CONTENT_W - 48;
+    const cw = tw / 3;
+
+    drawRoundedRect(c, tx, ty, tw, 40, 6, "#f1f5f9", "#cbd5e1", 1.2);
+    c.textAlign = "center";
+    c.font = `700 18px ${FONT_FAMILY}`;
+    c.fillStyle = "#475569";
+    c.fillText("구분", tx + cw * 0.5, ty + 26);
+    c.fillText(`${r.p1.name} (${r.p1.gender})`, tx + cw * 1.5, ty + 26);
+    c.fillText(`${r.p2.name} (${r.p2.gender})`, tx + cw * 2.5, ty + 26);
+    ty += 40;
+
+    r.compareRows.forEach(row => {
+      c.strokeStyle = "#e2e8f0";
+      c.strokeRect(tx, ty, cw, 36);
+      c.strokeRect(tx + cw, ty, cw, 36);
+      c.strokeRect(tx + cw * 2, ty, cw, 36);
+      c.font = `700 17px ${FONT_FAMILY}`;
+      c.fillStyle = "#0f172a";
+      c.fillText(row.label, tx + cw * 0.5, ty + 24);
+      c.font = `600 17px ${FONT_FAMILY}`;
+      c.fillStyle = "#334155";
+      c.fillText(row.v1, tx + cw * 1.5, ty + 24);
+      c.fillText(row.v2, tx + cw * 2.5, ty + 24);
+      ty += 36;
+    });
+    c.textAlign = "left";
+    pm.addY(cardH + 20);
+  }
+
+  // 4. 심층 관계 및 시너지 코칭 리포트 (새 페이지 시작)
+  pm.forcePageBreak();
+  {
+    const c = pm.getCtx();
+    c.font = `800 26px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText("심층 관계 및 시너지 코칭 리포트", MARGIN_X, pm.getY() + 24);
+    pm.addY(44);
+  }
+
+  r.compatDetails.forEach(d => {
+    const tmpCtx = pm.getCtx();
+    tmpCtx.font = `500 20px ${FONT_FAMILY}`;
+    const bodyLines = wrapCanvasLines(tmpCtx, d.content, CONTENT_W - 48);
+    const itemH = 68 + bodyLines.length * 30;
+
+    pm.ensureSpace(itemH + 14);
+    const c = pm.getCtx();
+    const sy = pm.getY();
+    drawRoundedRect(c, MARGIN_X, sy, CONTENT_W, itemH, 16, "#ffffff", "#cbd5e1", 1.8);
+    c.font = `800 21px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText(d.title, MARGIN_X + 24, sy + 36);
+
+    c.font = `500 20px ${FONT_FAMILY}`;
+    c.fillStyle = "#334155";
+    let ty = sy + 68;
+    bodyLines.forEach(l => { c.fillText(l, MARGIN_X + 24, ty); ty += 30; });
+    pm.addY(itemH + 14);
+  });
+
+  // 5. 궁합 최종 종합 정리표
+  {
+    pm.ensureSpace(120);
+    const c = pm.getCtx();
+    c.font = `800 24px ${FONT_FAMILY}`;
+    c.fillStyle = "#0f172a";
+    c.fillText(`두 사람 궁합 & 시너지 최종 종합 정리 (${r.p1.name} × ${r.p2.name})`, MARGIN_X, pm.getY() + 28);
+    pm.addY(46);
+
+    const keyColW = 240;
+    const valColW = CONTENT_W - keyColW;
+    r.compatSummaryRows.forEach(row => {
+      const mCtx = pm.getCtx();
+      mCtx.font = `500 19px ${FONT_FAMILY}`;
+      const valLines = wrapCanvasLines(mCtx, row.val, valColW - 32);
+      const rowH = Math.max(52, 26 + valLines.length * 27);
+
+      pm.ensureSpace(rowH);
+      const rc = pm.getCtx();
+      const ry = pm.getY();
+      rc.fillStyle = "#f1f5f9";
+      rc.fillRect(MARGIN_X, ry, keyColW, rowH);
+      rc.fillStyle = "#ffffff";
+      rc.fillRect(MARGIN_X + keyColW, ry, valColW, rowH);
+      rc.strokeStyle = "#cbd5e1";
+      rc.lineWidth = 1.5;
+      rc.strokeRect(MARGIN_X, ry, keyColW, rowH);
+      rc.strokeRect(MARGIN_X + keyColW, ry, valColW, rowH);
+
+      rc.font = `700 19px ${FONT_FAMILY}`;
+      rc.fillStyle = "#0f172a";
+      rc.fillText(row.key, MARGIN_X + 16, ry + 33);
+
+      rc.font = `500 19px ${FONT_FAMILY}`;
+      rc.fillStyle = "#334155";
+      let vy = ry + 32;
+      valLines.forEach(vl => { rc.fillText(vl, MARGIN_X + keyColW + 16, vy); vy += 27; });
+      pm.addY(rowH);
+    });
+  }
+
+  pm.finalizeFooters();
+  return pm.getPages();
+}
+
+// 다중 페이지 JPEG 배열 → 표준 PDF 1.4 바이너리 조립
 function buildMultiPagePdfBinary(jpegPages) {
   const encoder = new TextEncoder();
   const chunks = [];
@@ -2148,7 +3392,7 @@ function buildMultiPagePdfBinary(jpegPages) {
     byteLength += uint8.length;
   }
 
-  const offsets = [0]; // obj 0 placeholder
+  const offsets = [0];
   function startObj(objNum) {
     offsets[objNum] = byteLength;
     pushStr(`${objNum} 0 obj\n`);
@@ -2159,12 +3403,9 @@ function buildMultiPagePdfBinary(jpegPages) {
 
   pushStr("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
 
-  // Obj 1: Catalog, Obj 2: Pages
   const pageCount = jpegPages.length;
   const pageObjNums = [];
-  for (let i = 0; i < pageCount; i++) {
-    pageObjNums.push(3 + i * 3);
-  }
+  for (let i = 0; i < pageCount; i++) pageObjNums.push(3 + i * 3);
 
   startObj(1);
   pushStr(`<< /Type /Catalog /Pages 2 0 R >>\n`);
@@ -2174,7 +3415,6 @@ function buildMultiPagePdfBinary(jpegPages) {
   pushStr(`<< /Type /Pages /Kids [${pageObjNums.map(n => `${n} 0 R`).join(" ")}] /Count ${pageCount} >>\n`);
   endObj();
 
-  // 각 페이지마다 Page Obj(3+3i), Content Stream Obj(4+3i), Image XObject Obj(5+3i) 생성
   const a4W = 595.28;
   const a4H = 841.89;
 
@@ -2184,16 +3424,11 @@ function buildMultiPagePdfBinary(jpegPages) {
     const contentObj = 4 + i * 3;
     const imgObj = 5 + i * 3;
 
-    const drawW = a4W - 36; // 좌우 18pt 여백
-    const drawH = (p.height / p.width) * drawW;
-    const posX = 18;
-    const posY = a4H - 18 - drawH;
-
     startObj(pageObj);
     pushStr(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${a4W} ${a4H}] /Resources << /XObject << /Im${i} ${imgObj} 0 R >> >> /Contents ${contentObj} 0 R >>\n`);
     endObj();
 
-    const contentStream = `q\n${drawW.toFixed(2)} 0 0 ${drawH.toFixed(2)} ${posX.toFixed(2)} ${posY.toFixed(2)} cm\n/Im${i} Do\nQ\n`;
+    const contentStream = `q\n${a4W.toFixed(2)} 0 0 ${a4H.toFixed(2)} 0.00 0.00 cm\n/Im${i} Do\nQ\n`;
     startObj(contentObj);
     pushStr(`<< /Length ${contentStream.length} >>\nstream\n${contentStream}endstream\n`);
     endObj();
@@ -2248,48 +3483,36 @@ function triggerBlobDownload(blob, filename) {
   }, 1500);
 }
 
-async function downloadNativePDF(captureId, btnId, infoBoxId) {
-  const btn = document.getElementById(btnId);
+function exportReportAsPDF(mode, btnId, infoBoxId) {
+  const btn = btnId ? document.getElementById(btnId) : null;
   const origText = btn ? btn.textContent : "";
   if (btn) {
     btn.textContent = "PDF 문서 생성 중...";
     btn.disabled = true;
   }
-  showMsg(infoBoxId, "고해상도 다중 페이지 PDF 문서를 생성하고 있습니다. 잠시만 기다려 주세요...");
 
   try {
-    const fullCanvas = await renderElementToCanvas(captureId);
-    // A4 비율(595.28 : 841.89)에 맞춘 1페이지 슬라이스 높이 계산
-    const pageSliceHeight = Math.floor(fullCanvas.width * (805.89 / 559.28));
-    const jpegPages = [];
+    if (mode === "single" && !LAST_SINGLE_REPORT) runSingleAnalysis(false);
+    if (mode === "compat" && !LAST_COMPAT_REPORT) runCompatAnalysis(false);
 
-    for (let y = 0; y < fullCanvas.height; y += pageSliceHeight) {
-      const sliceH = Math.min(pageSliceHeight, fullCanvas.height - y);
-      const pageCanvas = document.createElement("canvas");
-      pageCanvas.width = fullCanvas.width;
-      pageCanvas.height = sliceH;
-      const pCtx = pageCanvas.getContext("2d");
-      pCtx.fillStyle = "#ffffff";
-      pCtx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
-      pCtx.drawImage(fullCanvas, 0, y, fullCanvas.width, sliceH, 0, 0, fullCanvas.width, sliceH);
+    const pageCanvases = mode === "single"
+      ? renderSingleReportPages(LAST_SINGLE_REPORT)
+      : renderCompatReportPages(LAST_COMPAT_REPORT);
 
-      const jpegUrl = pageCanvas.toDataURL("image/jpeg", 0.92);
-      jpegPages.push({
-        width: pageCanvas.width,
-        height: pageCanvas.height,
-        bytes: dataUrlToUint8Array(jpegUrl)
-      });
-    }
+    const jpegPages = pageCanvases.map(canvas => ({
+      width: canvas.width,
+      height: canvas.height,
+      bytes: dataUrlToUint8Array(canvas.toDataURL("image/jpeg", 0.92))
+    }));
 
     const pdfBytes = buildMultiPagePdfBinary(jpegPages);
     const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
-    const filename = getExportFileName(captureId, "pdf");
+    const filename = getExportFileName(mode, "pdf");
     triggerBlobDownload(pdfBlob, filename);
 
-    showMsg(infoBoxId, `PDF 저장 완료: '${filename}' (${jpegPages.length}페이지) 파일이 다운로드 폴더에 저장되었습니다.`);
+    showMsg(infoBoxId, `PDF 저장 완료: '${filename}' (총 ${jpegPages.length}페이지 · 2페이지부터 심층 리포트 시작) 파일이 다운로드되었습니다.`);
   } catch (err) {
-    showMsg(infoBoxId, "미리보기 보안 환경에서 SVG 캡처가 제한되어 브라우저 인쇄 창을 호출합니다. 대상 프린터를 'PDF로 저장'으로 선택해 주세요.");
-    try { window.print(); } catch (e) {}
+    showMsg(infoBoxId, "PDF 생성 중 일시적 오류가 발생했습니다. 상단 '리포트 인쇄' 버튼을 이용해 주세요.");
   } finally {
     if (btn) {
       btn.textContent = origText;
@@ -2298,22 +3521,44 @@ async function downloadNativePDF(captureId, btnId, infoBoxId) {
   }
 }
 
-async function downloadNativePNG(captureId, btnId, infoBoxId) {
-  const btn = document.getElementById(btnId);
+function exportReportAsPNG(mode, btnId, infoBoxId) {
+  const btn = btnId ? document.getElementById(btnId) : null;
   const origText = btn ? btn.textContent : "";
   if (btn) {
     btn.textContent = "PNG 이미지 생성 중...";
     btn.disabled = true;
   }
-  showMsg(infoBoxId, "고화질 리포트 PNG 이미지를 생성하고 있습니다...");
 
   try {
-    const fullCanvas = await renderElementToCanvas(captureId);
-    const filename = getExportFileName(captureId, "png");
-    fullCanvas.toBlob((blob) => {
+    if (mode === "single" && !LAST_SINGLE_REPORT) runSingleAnalysis(false);
+    if (mode === "compat" && !LAST_COMPAT_REPORT) runCompatAnalysis(false);
+
+    const pageCanvases = mode === "single"
+      ? renderSingleReportPages(LAST_SINGLE_REPORT)
+      : renderCompatReportPages(LAST_COMPAT_REPORT);
+
+    const gap = 24;
+    const totalW = pageCanvases[0].width;
+    const totalH = pageCanvases.reduce((acc, c) => acc + c.height, 0) + gap * (pageCanvases.length - 1);
+
+    const mergedCanvas = document.createElement("canvas");
+    mergedCanvas.width = totalW;
+    mergedCanvas.height = totalH;
+    const mCtx = mergedCanvas.getContext("2d");
+    mCtx.fillStyle = "#e2e8f0";
+    mCtx.fillRect(0, 0, totalW, totalH);
+
+    let curY = 0;
+    pageCanvases.forEach(c => {
+      mCtx.drawImage(c, 0, curY);
+      curY += c.height + gap;
+    });
+
+    const filename = getExportFileName(mode, "png");
+    mergedCanvas.toBlob((blob) => {
       if (blob) {
         triggerBlobDownload(blob, filename);
-        showMsg(infoBoxId, `PNG 저장 완료: '${filename}' 이미지가 다운로드 폴더에 저장되었습니다.`);
+        showMsg(infoBoxId, `PNG 저장 완료: '${filename}' (${pageCanvases.length}페이지 통합 고화질 이미지) 파일이 다운로드되었습니다.`);
       }
       if (btn) {
         btn.textContent = origText;
@@ -2321,7 +3566,7 @@ async function downloadNativePNG(captureId, btnId, infoBoxId) {
       }
     }, "image/png");
   } catch (err) {
-    showMsg(infoBoxId, "PNG 변환이 제한된 환경입니다. 우측 'PDF 파일 다운로드' 버튼을 이용해 주세요.");
+    showMsg(infoBoxId, "PNG 저장 중 일시적 오류가 발생했습니다. 'PDF 파일 다운로드' 버튼을 이용해 주세요.");
     if (btn) {
       btn.textContent = origText;
       btn.disabled = false;
@@ -2329,7 +3574,7 @@ async function downloadNativePNG(captureId, btnId, infoBoxId) {
   }
 }
 
-function safePrintReport(captureId, infoBoxId) {
+function safePrintReport(mode, infoBoxId) {
   showMsg(infoBoxId, "인쇄 대화상자를 호출합니다. 미리보기 환경에서 인쇄창이 열리지 않을 경우 자동으로 PDF 파일 다운로드를 실행합니다.");
   let beforePrintFired = false;
   const onBeforePrint = () => { beforePrintFired = true; };
@@ -2339,16 +3584,16 @@ function safePrintReport(captureId, infoBoxId) {
     window.print();
   } catch (e) {}
 
-  // iframe 샌드박스에서 window.print()가 무시되는 경우 600ms 후 자동 PDF 다운로드 폴백
   setTimeout(() => {
     window.removeEventListener("beforeprint", onBeforePrint);
     if (!beforePrintFired) {
-      downloadNativePDF(captureId, null, infoBoxId);
+      exportReportAsPDF(mode, null, infoBoxId);
     }
   }, 600);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  loadCustomDBFromStorage();
   runSingleAnalysis(false);
 });
 </script>
